@@ -1,4 +1,4 @@
 {
-    "mongoURI": "mongodb+srv://admin-1:admin1@cluster0.hmgyb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    "mongoURI": "mongodb://admin-1:admin1@cluster0-shard-00-00.hmgyb.mongodb.net:27017,cluster0-shard-00-01.hmgyb.mongodb.net:27017,cluster0-shard-00-02.hmgyb.mongodb.net:27017/?ssl=true&replicaSet=atlas-f374gp-shard-0&authSource=admin&retryWrites=true&w=majority",
     "jwtSecret": "secret"
 }

@@ -64,8 +64,10 @@ exports.postUserLogin = async (req, res) => {
     try {
         // Check if the User with this Email exists
         let user = await User.findOne({metaMaskAccount: metaMaskAccount});
-
+        let allUsers = await User.find({});
+        console.log(allUsers);
         if (!user) {
+            console.log("not foun.....");
             return res.status(400).json({ msg: "Employee Does not Exist!" });
         } else {
             // let isMatch = await bcrypt.compare(password, user.password);

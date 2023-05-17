@@ -1,7 +1,8 @@
 import React,{ useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
 
-import { create as ipfsHttpClient } from "ipfs-http-client";
+// import { create as ipfsHttpClient } from "ipfs-http-client";
+
 import { ethers } from 'ethers';
 import { errorNotification } from './layout/Notification';
 import swal from 'sweetalert';
@@ -10,8 +11,24 @@ import { requestAccount } from '../functions/requestAccount';
 
 import UserContext from '../context/user/userContext';
 
-const ipfs = ipfsHttpClient("https://ipfs.infura.io:5001/api/v0");
+// const ipfs = ipfsHttpClient("https://ipfs.infura.io:5001/api/v0");
+// const ipfs = ipfsHttpClient("https://ipfs.infura.io:5001/api/v0");
 // const ipfs = create({ host: "ipfs.infura.io", port: 5001, protocol: "https" });
+
+import { create as ipfsClient } from "ipfs-http-client";
+const projectId = 'your-ipfs-id';
+const projectSecret = 'your-ipfs-secret';
+const auth =
+    'Basic ' + Buffer.from(projectId + ':' + projectSecret).toString('base64');
+
+const ipfs = ipfsClient({
+    host: 'ipfs.infura.io',
+    port: 5001,
+    protocol: 'https',
+    headers: {
+        authorization: auth,
+    },
+});
 
 const AddProperty = (props) => {
     const userContext = useContext(UserContext);
@@ -56,13 +73,15 @@ const AddProperty = (props) => {
 					console.log("ipfs uri upload error: ", error)
 				}
             } else {
+				console.log(image, location, size, description, amount);
 				errorNotification('Missing Fields', 'Please Fill All Fields');
 				window.history.replaceState({}, document.title)
             }
         }
     }
 	async function listProperty(ipfsToken) {
-		const ipfsURI = `https://ipfs.infura.io/ipfs/${ipfsToken.path}`;
+		const ipfsURI = `https://pro-lock.infura-ipfs.io/ipfs/${ipfsToken.path}`; // this url is your infura url
+		console.log(ipfsURI);
 		const amountInEther = ethers.utils.parseEther(amount.toString());
 		const result = await contract.addProperty(ipfsURI, amountInEther);
 		const txData = await result.wait();
@@ -89,7 +108,7 @@ const AddProperty = (props) => {
             try {
                 const ipfsToken = await ipfs.add(imageBuffer);
 				console.log(ipfsToken)
-                setImage(`https://ipfs.infura.io/ipfs/${ipfsToken.path}`);
+                setImage(`https://pro-lock.infura-ipfs.io/ipfs/${ipfsToken.path}`);
             } catch (err) {
                 console.log("Error uploading your image to IPFS. Try Uploading Again.", err);
             }

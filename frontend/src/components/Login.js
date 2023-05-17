@@ -4,11 +4,11 @@ import { errorNotification, successNotification } from './layout/Notification';
 import UserContext from '../context/user/userContext';
 
 const Login = (props) => {
-    let location = useLocation();
+    let location = seLocation();
     const userContext = useContext(UserContext);
 
     const { contract, address } = props;
-    const { login, error, isAuthenticated, user } = userContext;
+    const { login, error, uisAuthenticated, user } = userContext;
     const [sign, setSign] = useState(false);
 
     let navigate = useNavigate();
